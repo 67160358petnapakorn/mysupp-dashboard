@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MYSUPP Dashboard – Your Health. Personalized.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{color-scheme:light;--navy:#123b5d;--teal:#16b8a6;--sky:#57b9f2;--page:#f4fbf9;--surface:#fff;--ink:#0f2a3f;--ink2:#4d6577;--muted:#86a0b0;--grid:#d9ebe6;--axis:#bcd5ce;--ring:rgba(18,59,93,.10);--good:#0a7d6e;--mint:#ddf6f0;
+--s1:#16b8a6;--s2:#57b9f2;--s3:#123b5d;--s4:#e8a317;--s5:#e0634f;--font:"IBM Plex Sans Thai",system-ui,sans-serif;--num:"Poppins","IBM Plex Sans Thai",sans-serif}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){color-scheme:dark;--page:#0b1d2b;--surface:#13303f;--ink:#e8f5f2;--ink2:#a9c3cf;--muted:#7f9bab;--grid:#223f50;--axis:#2f5266;--ring:rgba(255,255,255,.10);--good:#3ed1bf;--mint:#173c4a;--s3:#9fd6f5;--s4:#f0b84a;--s5:#ff8f7d}}
+:root[data-theme="dark"]{color-scheme:dark;--page:#0b1d2b;--surface:#13303f;--ink:#e8f5f2;--ink2:#a9c3cf;--muted:#7f9bab;--grid:#223f50;--axis:#2f5266;--ring:rgba(255,255,255,.10);--good:#3ed1bf;--mint:#173c4a;--s3:#9fd6f5;--s4:#f0b84a;--s5:#ff8f7d}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--font);line-height:1.6;font-size:16px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.hero{background:radial-gradient(circle at 88% 10%,rgba(87,185,242,.55),transparent 42%),linear-gradient(135deg,#0c2b45,#123b5d 50%,#16b8a6);color:#fff;padding:36px 0 76px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;right:-50px;top:30px;width:280px;height:118px;border-radius:99px;background:linear-gradient(90deg,#fff 50%,#ddf6f0 50%);opacity:.12;transform:rotate(-28deg)}
+.hero .wrap{position:relative;z-index:1}
+.eyebrow{font-family:var(--num);font-weight:700;letter-spacing:.14em;font-size:12px;color:#bfe9e2;text-transform:uppercase}
+.hero h1{font-family:var(--num);font-weight:700;font-size:clamp(30px,6vw,52px);line-height:1.1;margin:8px 0 6px}
+.hero h1 span{color:#7fe3d6}
+.hero p{margin:0 0 4px;color:#d3ebf1;font-size:16px}.hero .by{font-size:14px;color:#a9cfd9}
+.sim{display:inline-block;margin-top:10px;font-size:12.5px;padding:4px 10px;border:1px solid rgba(255,255,255,.3);border-radius:999px}
+.themebtn{position:absolute;right:16px;top:14px;z-index:2;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.filters{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:20px}
+.fgroup{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.flabel{font-size:12.5px;color:#bfe9e2}
+.fgroup [role=group]{display:flex;gap:6px;flex-wrap:wrap}
+.fbtn{font:inherit;font-size:13px;color:#e4f6f3;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 12px;cursor:pointer}
+.fbtn:hover{background:rgba(255,255,255,.18)}.fbtn[aria-pressed=true]{background:#fff;color:#123b5d;border-color:#fff;font-weight:600}
+.fbtn:focus-visible,.themebtn:focus-visible,.tblbtn:focus-visible,nav a:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:-48px;position:relative;z-index:3}
+.kpi{background:var(--surface);border:1px solid var(--ring);border-left:5px solid var(--teal);border-radius:14px;padding:14px 16px;box-shadow:0 8px 22px -14px rgba(18,59,93,.5)}
+.kpi .l{font-size:12.5px;color:var(--ink2)}.kpi .v{font-family:var(--num);font-weight:700;font-size:26px;line-height:1.2;margin:2px 0}.kpi .d{font-size:12.5px;color:var(--ink2)}.kpi .d b{color:var(--good)}
+.scope{font-size:13px;color:var(--ink2);margin:14px 2px 0}.scope b{color:var(--ink)}
+.assume{background:var(--mint);border:1px solid var(--grid);border-radius:10px;font-size:13px;padding:8px 12px;margin-top:12px}
+.assume b{background:var(--navy);color:#fff;padding:1px 10px;border-radius:99px;margin-right:8px;font-weight:600}
+nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--page) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);margin-top:24px}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:8px 16px;scrollbar-width:none}
+nav a{white-space:nowrap;text-decoration:none;color:var(--ink2);font-size:13.5px;padding:5px 11px;border-radius:999px;border:1px solid transparent}
+nav a:hover{border-color:var(--grid);color:var(--ink)}nav a.on{background:var(--navy);color:#fff}
+.alerts,.chapter{scroll-margin-top:48px}.alerts{padding:30px 0 4px}
+.alerts h2{font-size:clamp(20px,3vw,26px);margin:0 0 4px}.alerts h2 small{font-size:14px;font-weight:500;color:var(--ink2);margin-left:8px}
+.alertgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px;margin-top:14px}
+.alert{background:var(--surface);border:1px solid var(--ring);border-left:5px solid var(--axis);border-radius:12px;padding:12px 14px}
+.alert.warn{border-left-color:#f0b84a}.alert.crit{border-left-color:#d03b3b}.alert.ok{border-left-color:#1fb58a}
+.alert .top{display:flex;justify-content:space-between;align-items:center}.alert .aid{font-family:var(--num);font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.chip{font-size:12px;font-weight:600;padding:1px 9px;border-radius:999px;border:1px solid var(--grid)}.chip.ok{color:var(--good)}.chip.crit{color:#d03b3b}
+.alert h4{margin:6px 0 2px;font-size:14.5px}.alert .val{font-family:var(--num);font-weight:700;font-size:15px}.alert p{margin:4px 0 0;font-size:12.5px;color:var(--ink2)}.alert .act{color:var(--ink)}
+.chapter{padding:46px 0 8px}.chapter .no{font-family:var(--num);font-weight:700;font-size:13px;letter-spacing:.14em;color:var(--teal)}
+.chapter h2{font-size:clamp(22px,3.4vw,30px);line-height:1.3;margin:4px 0 10px;font-weight:700;max-width:900px}
+.chapter .lead{color:var(--ink2);max-width:860px;margin:0 0 18px}.lead b{color:var(--ink);font-weight:600}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--ring);border-radius:14px;padding:16px 16px 12px;margin:0}
+.card h3{font-size:15.5px;margin:0;font-weight:600}.card .sub{font-size:12.5px;color:var(--ink2);margin:2px 0 8px}
+.head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.tblbtn{flex:none;font:inherit;font-size:12px;color:var(--ink2);background:transparent;border:1px solid var(--grid);border-radius:8px;padding:3px 9px;cursor:pointer}
+.plot{position:relative;height:290px}.plot.tall{height:330px}.plot.short{height:240px}
+.tablewrap{overflow:auto;max-height:300px;margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}th,td{padding:5px 8px;text-align:right;border-bottom:1px solid var(--grid);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}th{color:var(--ink2);font-weight:600;position:sticky;top:0;background:var(--surface)}
+.note{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:0 0 14px;counter-reset:st}
+.flow div{background:var(--mint);border-radius:14px;padding:44px 14px 12px;position:relative;font-size:13px;color:var(--ink2)}
+.flow div::before{counter-increment:st;content:counter(st);position:absolute;top:12px;left:14px;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center}
+.flow b{display:block;color:var(--ink);font-size:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px;margin-top:14px}
+.mini{background:var(--surface);border:1px solid var(--ring);border-radius:14px;padding:14px 16px}.mini h4{margin:0 0 2px;font-size:15.5px}
+.mini .big{font-family:var(--num);font-weight:700;font-size:27px;line-height:1.15}.mini p{margin:4px 0;font-size:13.5px;color:var(--ink2)}
+.mini dl{margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px}.mini dt{color:var(--muted)}.mini dd{margin:0;text-align:right}
+.bar{height:6px;border-radius:4px;background:var(--grid);margin:8px 0 4px;overflow:hidden}.bar>i{display:block;height:100%;border-radius:4px}
+.actions{display:grid;gap:12px;margin-top:14px;counter-reset:a}
+.action{display:grid;grid-template-columns:36px 1fr;gap:12px;background:var(--surface);border:1px solid var(--ring);border-radius:14px;padding:14px 16px}
+.action::before{counter-increment:a;content:counter(a);font-family:var(--num);font-weight:700;width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center}
+.action h4{margin:0 0 2px;font-size:15.5px}.action p{margin:0;font-size:14px;color:var(--ink2)}
+footer{margin:56px 0 0;padding:28px 0 48px;border-top:1px solid var(--grid);font-size:13px;color:var(--ink2)}footer b{color:var(--ink)}footer code{background:var(--grid);padding:1px 6px;border-radius:4px;font-size:12px}
+@media print{nav,.themebtn,.tblbtn,.filters{display:none}.card,.mini,.action,.kpi{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <button class="themebtn" id="themebtn" type="button" aria-label="สลับโหมดสว่าง/มืด">โหมดมืด</button>
+  <div class="wrap">
+    <div class="eyebrow">Business Idea Creation · Storytelling Dashboard</div>
+    <h1>MY<span>SUPP</span></h1>
+    <p>Your Health. Personalized. · แพลตฟอร์มวางแผนอาหารเสริมเฉพาะบุคคลด้วย AI</p>
+    <p class="by">จัดทำโดย <span id="author"></span> · <span id="period"></span></p>
+    <span class="sim">ข้อมูลทั้งหมดเป็นข้อมูลจำลอง (synthetic) เพื่อการเรียนการสอน</span>
+    <div class="filters" aria-label="ตัวกรองข้อมูล">
+      <div class="fgroup"><span class="flabel" id="lp">ช่วงเวลา</span><div role="group" aria-labelledby="lp" id="fperiod"></div></div>
+      <div class="fgroup"><span class="flabel" id="lc">ช่องทาง</span><div role="group" aria-labelledby="lc" id="fchan"></div></div>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="kpis" id="kpis" aria-label="ตัวเลขสำคัญ"></section>
+  <p class="scope" id="scope"></p>
+  <div class="assume"><b>ข้อมูลจำลอง</b>ตัวเลขทุกตัวมาจากสมมติฐานของกลุ่ม (ดูชีต README ในไฟล์ data.xlsx) ยังไม่ใช่ผลจากผู้ใช้จริง ควรยืนยันด้วยกลุ่มนำร่องก่อนตัดสินใจ</div>
+  <section class="alerts" id="alerts"><h2>สัญญาณเตือน <small id="alertsum"></small></h2>
+    <p class="note" style="margin:0">ประเมินจากข้อมูล 3 เดือนล่าสุดตามช่องทางที่เลือก (ไม่ขึ้นกับตัวกรองช่วงเวลา) · เกณฑ์เป็นค่าที่ผู้จัดทำกำหนดเอง ปรับได้ในโค้ด</p>
+    <div class="alertgrid" id="alertgrid"></div></section>
+</main>
+<nav aria-label="สารบัญ"><div class="wrap" id="nav"></div></nav>
+<main class="wrap">
+<section class="chapter" id="c1"><div class="no">บทที่ 1 · ลูกค้า</div><h2 id="c1h"></h2><p class="lead" id="c1p"></p>
+  <div class="grid2">
+   <figure class="card" data-chart="seg"><div class="head"><div><h3>ยอดขายสุทธิแยกกลุ่มลูกค้า</h3><p class="sub">ล้านบาท ในช่วงที่เลือก</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot short"><canvas role="img" aria-label="แผนภูมิแท่งยอดขายแยกกลุ่มลูกค้า"></canvas></div><div class="tablewrap" hidden></div></figure>
+   <figure class="card" data-chart="chshare"><div class="head"><div><h3>สัดส่วนยอดขายตามช่องทาง รายไตรมาส</h3><p class="sub">% ของยอดขายสุทธิ · แสดงทุกช่องทางเพื่อเปรียบเทียบ</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot short"><canvas role="img" aria-label="แผนภูมิแท่งซ้อนสัดส่วนช่องทาง"></canvas></div><div class="tablewrap" hidden></div></figure>
+  </div><div class="cards" id="segcards"></div></section>
+<section class="chapter" id="c2"><div class="no">บทที่ 2 · AI ทำงานอย่างไร</div><h2 id="c2h"></h2><p class="lead" id="c2p"></p>
+  <div class="flow"><div><b>รวมข้อมูลสุขภาพ</b>ผลตรวจเลือดจากแล็บ/คลินิก แบบสอบถาม และ Apple Health / Fitbit</div><div><b>AI วิเคราะห์</b>ประเมินสิ่งที่ร่างกายขาดและเป้าหมายของผู้ใช้</div><div><b>ผู้เชี่ยวชาญตรวจสูตร</b>นักโภชนาการ/แพทย์ตรวจความปลอดภัยก่อนผลิต</div><div><b>ผลิตและจัดส่ง</b>โรงงาน OEM มาตรฐาน GMP/อย. ส่งแบบสมาชิกรายเดือน</div><div><b>ติดตามและปรับสูตร</b>แจ้งเตือนผ่านแอป ปรับสูตรทุกเดือน</div></div>
+  <div class="grid2">
+   <figure class="card" data-chart="adh"><div class="head"><div><h3>อัตราทานครบตามแผน (%)</h3><p class="sub">สมาชิกที่ทานครบ ÷ สมาชิกที่ใช้งานอยู่</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot"><canvas role="img" aria-label="กราฟเส้นอัตราทานครบ"></canvas></div><div class="tablewrap" hidden></div></figure>
+   <figure class="card" data-chart="health"><div class="head"><div><h3>ผู้ใช้ที่ค่าตรวจเลือดดีขึ้นหลังใช้ครบ 3 เดือน (%)</h3><p class="sub">รวมทุกกลุ่มลูกค้า · ไม่ขึ้นกับตัวกรอง · สมมติฐาน ต้องยืนยันกับกลุ่มนำร่อง</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot"><canvas role="img" aria-label="แผนภูมิแท่งผลตรวจเลือดที่ดีขึ้น"></canvas></div><div class="tablewrap" hidden></div></figure>
+  </div></section>
+<section class="chapter" id="c3"><div class="no">บทที่ 3 · ผลลัพธ์</div><h2 id="c3h"></h2><p class="lead" id="c3p"></p>
+  <div class="grid2">
+   <figure class="card" data-chart="mem"><div class="head"><div><h3>สมาชิกที่ใช้งานอยู่ ณ สิ้นเดือน (คน)</h3><p class="sub">เดือนล่าสุดเน้นสีเข้ม</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot"><canvas role="img" aria-label="แผนภูมิแท่งจำนวนสมาชิก"></canvas></div><div class="tablewrap" hidden></div></figure>
+   <figure class="card" data-chart="churn"><div class="head"><div><h3>อัตราเลิกใช้ต่อเดือน (Churn %)</h3><p class="sub">สมาชิกที่เลิก ÷ สมาชิกต้นเดือน</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot"><canvas role="img" aria-label="กราฟเส้น Churn"></canvas></div><div class="tablewrap" hidden></div></figure>
+  </div></section>
+<section class="chapter" id="c4"><div class="no">บทที่ 4 · ธุรกิจ</div><h2 id="c4h"></h2><p class="lead" id="c4p"></p>
+  <div class="grid2">
+   <figure class="card" data-chart="rev"><div class="head"><div><h3>รายได้รายเดือน แยกตามแหล่งรายได้</h3><p class="sub">ล้านบาท · ตรงกับ Revenue Streams ใน Business Model Canvas</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot tall"><canvas role="img" aria-label="แผนภูมิแท่งซ้อนรายได้"></canvas></div><div class="tablewrap" hidden></div></figure>
+   <figure class="card" data-chart="wf"><div class="head"><div><h3 id="wfh">จากยอดขาย 1 บาท เหลือกำไรเท่าไร</h3><p class="sub" id="wfs"></p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot tall"><canvas role="img" aria-label="แผนภูมิน้ำตกกำไร"></canvas></div><div class="tablewrap" hidden></div></figure>
+   <figure class="card" data-chart="cm"><div class="head"><div><h3>กำไรส่วนเกินตามช่องทาง (%)</h3><p class="sub">หลังหักต้นทุนสินค้า ค่าธรรมเนียม ค่าจัดส่ง และค่าการตลาด</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot"><canvas role="img" aria-label="แผนภูมิแท่งกำไรส่วนเกิน"></canvas></div><div class="tablewrap" hidden></div></figure>
+   <figure class="card" data-chart="np"><div class="head"><div><h3 id="nph">กำไรสุทธิรายเดือน</h3><p class="sub" id="nps">ล้านบาท</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot"><canvas role="img" aria-label="แผนภูมิแท่งกำไรรายเดือน"></canvas></div><div class="tablewrap" hidden></div></figure>
+  </div></section>
+<section class="chapter" id="c5"><div class="no">บทที่ 5 · การเติบโต</div><h2 id="c5h"></h2><p class="lead" id="c5p"></p>
+  <div class="grid2">
+   <figure class="card" data-chart="fun"><div class="head"><div><h3>Funnel ผู้ใช้ จากเห็นโฆษณาถึงแนะนำเพื่อน</h3><p class="sub">คนในช่วงที่เลือก</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot tall"><canvas role="img" aria-label="แผนภูมิแท่ง Funnel"></canvas></div><div class="tablewrap" hidden></div></figure>
+   <figure class="card" data-chart="cac"><div class="head"><div><h3>ต้นทุนได้สมาชิกใหม่ (CAC) รายเดือน</h3><p class="sub">บาทต่อสมาชิกใหม่ 1 คน รวมค่าโฆษณาและ KOL</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot tall"><canvas role="img" aria-label="กราฟเส้น CAC"></canvas></div><div class="tablewrap" hidden></div></figure>
+   <figure class="card" data-chart="cacch"><div class="head"><div><h3>CAC แยกช่องทาง: 3 เดือนแรก vs 3 เดือนล่าสุด</h3><p class="sub">บาทต่อสมาชิกใหม่ 1 คน</p></div><button class="tblbtn" type="button">ดูเป็นตาราง</button></div><div class="plot"><canvas role="img" aria-label="แผนภูมิแท่งเปรียบเทียบ CAC"></canvas></div><div class="tablewrap" hidden></div></figure>
+  </div></section>
+<section class="chapter" id="c6"><div class="no">บทที่ 6 · ก้าวต่อไป</div><h2 id="c6h"></h2><p class="lead" id="c6p"></p><div class="actions" id="actions"></div></section>
+</main>
+<footer><div class="wrap">
+  <p><b>เกี่ยวกับข้อมูล:</b> ทุกตัวเลขมาจากชุดข้อมูลจำลอง (Star Schema) ในไฟล์ <code>data.xlsx</code> สร้างด้วย <code>src/generate_data.py</code> ให้สอดคล้องกับ Business Model Canvas, SWOT, 4M และ 4P ของ MYSUPP — ไม่ใช่ยอดขายจริงของธุรกิจ</p>
+  <p><b>สมมติฐานสำคัญ:</b> ราคาเฉลี่ยต่อออเดอร์ 700–920 บาท · ค่าสมาชิก 149 บาท/เดือน · ต้นทุนสินค้า ≈ 40% ของยอดขายอาหารเสริม · ผลตรวจเลือดที่ดีขึ้นเป็นข้อมูลจำลอง · ปี พ.ศ. ในแกนเวลา (ม.ค. 69 = ม.ค. 2026)</p>
+  <p id="credit"></p></div></footer>
+<script>
+const DATA = {"labels":["ต.ค. 68","พ.ย. 68","ธ.ค. 68","ม.ค. 69","ก.พ. 69","มี.ค. 69","เม.ย. 69","พ.ค. 69","มิ.ย. 69","ก.ค. 69","ส.ค. 69","ก.ย. 69"],"seg":[[1,"วัยทำงาน 25–45 ปี","สุขภาพเชิงป้องกัน ไม่มีเวลาพบแพทย์/นักโภชนาการบ่อยๆ"],[2,"ออกกำลังกาย/ฟิตเนส","ต้องการอาหารเสริมตรงเป้าหมาย เพิ่มกล้ามเนื้อ ฟื้นฟูร่างกาย"],[3,"ผู้สูงอายุ/ผู้ดูแล","ดูแลสุขภาพเชิงป้องกันแบบเฉพาะบุคคล"]],"ch":[[1,"Social Media"],[2,"App / Website MYSUPP"],[3,"คลินิก/โรงพยาบาลพันธมิตร"],[4,"E-commerce (Shopee/Lazada)"],[5,"องค์กร (B2B)"]],"rows":[[0,1,1,13,13,0,8,12,9439,1937,1506,0,3932,0,540],[0,2,1,7,7,0,4,7,6610,1043,810,0,2657,0,315],[0,3,1,4,4,0,2,4,2781,596,446,0,1073,0,180],[0,1,2,11,11,0,7,10,8033,1639,1379,0,3172,242,450],[0,2,2,6,6,0,3,6,5409,894,683,0,2088,158,270],[0,3,2,4,4,0,2,4,2804,596,435,0,1075,85,180],[0,1,3,8,8,0,5,8,6129,1192,900,0,2528,732,360],[0,2,3,5,5,0,3,5,4661,745,548,0,1837,541,225],[0,3,3,3,3,0,2,3,2149,447,376,0,828,260,135],[0,1,4,7,7,0,4,7,5267,1043,775,0,2107,379,315],[0,2,4,3,3,0,2,3,2693,447,368,0,1083,188,135],[0,3,4,2,2,0,1,2,1445,298,219,0,589,105,90],[0,1,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,2,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,3,5,0,0,0,0,0,0,0,0,0,0,0,0],[1,1,1,17,28,2,18,27,20711,4172,3393,0,8657,0,1215],[1,2,1,10,16,1,10,16,14749,2384,2108,0,5700,0,720],[1,3,1,6,9,1,5,9,6547,1341,1071,0,2589,0,405],[1,1,2,15,24,2,14,23,17648,3576,2676,0,6898,531,1035],[1,2,2,9,14,1,9,14,12748,2086,1731,0,5207,371,630],[1,3,2,5,8,1,5,8,5387,1192,881,0,2089,164,360],[1,1,3,11,18,1,11,17,12974,2682,2072,0,5017,1566,765],[1,2,3,7,11,1,7,11,9846,1639,1267,0,3937,1148,495],[1,3,3,4,7,0,4,7,4756,1043,849,0,1946,580,315],[1,1,4,9,15,1,9,15,11268,2235,1659,0,4588,810,675],[1,2,4,5,7,1,4,7,6612,1043,772,0,2567,459,315],[1,3,4,3,5,0,2,5,3582,745,640,0,1399,260,225],[1,1,5,0,0,0,0,0,0,0,0,0,0,0,0],[1,2,5,0,0,0,0,0,0,0,0,0,0,0,0],[1,3,5,0,0,0,0,0,0,0,0,0,0,0,0],[2,1,1,21,45,4,29,43,34032,6705,5068,0,12960,0,1935],[2,2,1,13,27,2,18,26,23411,4023,3444,0,9521,0,1170],[2,3,1,9,17,1,11,17,11572,2533,1986,0,4767,0,765],[2,1,2,19,39,4,24,38,28610,5811,4909,0,11784,861,1710],[2,2,2,13,25,2,15,24,21536,3725,3050,0,8744,632,1080],[2,3,2,7,14,1,9,13,9029,2086,1841,0,3517,278,585],[2,1,3,16,31,3,18,30,23977,4619,3440,0,9263,2860,1350],[2,2,3,9,18,2,10,18,16649,2682,2089,0,6865,1933,810],[2,3,3,6,12,1,8,12,8630,1788,1469,0,3432,1042,540],[2,1,4,12,25,2,15,24,18266,3725,2935,0,7291,1319,1080],[2,2,4,7,13,1,8,13,12277,1937,1532,0,4963,853,585],[2,3,4,4,8,1,5,8,5462,1192,889,0,2099,399,360],[2,1,5,0,0,0,0,0,0,0,0,0,0,0,0],[2,2,5,0,0,0,0,0,0,0,0,0,0,0,0],[2,3,5,0,0,0,0,0,0,0,0,0,0,0,0],[3,1,1,30,69,6,42,66,49741,10281,8098,0,19115,0,2970],[3,2,1,16,39,4,25,37,33144,5811,4379,0,13789,0,1665],[3,3,1,11,26,2,18,25,17441,3874,3211,0,7045,0,1125],[3,1,2,25,59,5,40,57,42783,8791,6744,0,17708,1289,2565],[3,2,2,15,37,3,25,36,33668,5513,4707,0,13946,980,1620],[3,3,2,9,21,2,14,20,14093,3129,2671,0,5755,431,900],[3,1,3,19,46,4,27,45,35490,6854,5448,0,14081,4234,2025],[3,2,3,12,28,2,18,28,24837,4172,3692,0,9897,2901,1260],[3,3,3,7,17,2,11,17,11906,2533,2222,0,4660,1444,765],[3,1,4,15,36,4,23,35,28345,5364,3963,0,10850,2023,1575],[3,2,4,8,19,2,12,19,17281,2831,2247,0,6859,1207,855],[3,3,4,5,12,1,8,11,7573,1788,1447,0,3134,562,495],[3,1,5,8,8,0,5,8,6124,1192,969,2800,2485,0,160],[3,2,5,5,5,0,3,5,4568,745,620,1750,1826,0,100],[3,3,5,3,3,0,2,3,2091,447,341,1050,851,0,60],[4,1,1,40,101,8,68,100,78009,15049,12967,0,30434,0,4500],[4,2,1,21,55,5,40,53,50234,8195,6805,0,20382,0,2385],[4,3,1,12,35,3,25,34,23372,5215,4463,0,9274,0,1530],[4,1,2,32,84,7,54,82,66210,12516,10524,0,25628,1968,3690],[4,2,2,21,53,5,35,52,45986,7897,6789,0,17754,1347,2340],[4,3,2,11,29,3,20,28,19609,4321,3806,0,7574,598,1260],[4,1,3,26,67,5,43,64,48351,9983,7576,0,19938,5833,2880],[4,2,3,14,39,3,28,38,35820,5811,4465,0,14620,4163,1710],[4,3,3,9,24,2,17,24,17369,3576,2933,0,6983,2094,1080],[4,1,4,19,51,4,35,49,37437,7599,6580,0,14833,2702,2205],[4,2,4,11,28,2,21,27,25441,4172,3509,0,10194,1777,1215],[4,3,4,7,17,2,12,16,11550,2533,2115,0,4591,845,720],[4,1,5,9,16,1,12,15,11324,2384,1743,5250,4542,0,300],[4,2,5,6,10,1,7,10,9380,1490,1269,3500,3801,0,200],[4,3,5,3,6,0,4,6,4210,894,754,2100,1706,0,120],[5,1,1,45,136,10,95,132,99025,20264,16793,0,40682,0,5940],[5,2,1,26,75,6,54,71,63448,11175,8576,0,26268,0,3195],[5,3,1,16,47,4,35,46,33232,7003,5357,0,13907,0,2070],[5,1,2,44,118,10,84,115,87646,17582,14978,0,33971,2631,5175],[5,2,2,21,68,6,44,66,60719,10132,7479,0,23783,1771,2970],[5,3,2,13,39,3,28,38,27202,5811,4499,0,10983,825,1710],[5,1,3,33,92,8,67,88,66243,13708,10806,0,27466,7995,3960],[5,2,3,19,54,4,40,52,48746,8046,6926,0,19063,5679,2340],[5,3,3,11,32,3,22,31,21479,4768,3978,0,8968,2625,1395],[5,1,4,24,70,5,53,67,54102,10430,8488,0,22431,3872,3015],[5,2,4,13,38,3,29,37,34583,5662,4542,0,13388,2415,1665],[5,3,4,7,22,2,16,21,15094,3278,2597,0,6057,1102,945],[5,1,5,13,27,2,20,26,20867,4023,2958,9100,8284,0,520],[5,2,5,7,16,1,12,16,14467,2384,1793,5600,5736,0,320],[5,3,5,4,9,1,7,9,6149,1341,1012,3150,2529,0,180],[6,1,1,50,172,14,126,168,131062,25628,20018,0,50181,0,7560],[6,2,1,32,99,8,70,96,86599,14751,11849,0,35624,0,4320],[6,3,1,20,62,5,45,60,41757,9238,7354,0,16775,0,2700],[6,1,2,47,153,12,123,148,111516,22797,19392,0,43584,3358,6660],[6,2,2,28,89,7,65,85,79522,13261,10815,0,30562,2320,3825],[6,3,2,18,53,4,41,52,36480,7897,6118,0,14243,1109,2340],[6,1,3,34,117,9,87,115,87569,17433,14105,0,34177,10500,5175],[6,2,3,19,68,5,51,67,61429,10132,8940,0,24581,7156,3015],[6,3,3,12,41,3,31,40,28787,6109,4917,0,11368,3490,1800],[6,1,4,25,88,7,68,84,63839,13112,11074,0,26334,4617,3780],[6,2,4,15,49,4,36,48,43350,7301,5443,0,16855,3039,2160],[6,3,4,10,30,2,23,29,19714,4470,3388,0,7937,1451,1305],[6,1,5,14,38,3,28,37,28044,5662,4618,12950,10715,0,740],[6,2,5,8,22,2,16,21,20067,3278,2618,7350,7740,0,420],[6,3,5,5,13,1,10,13,9257,1937,1431,4550,3820,0,260],[7,1,1,60,217,15,178,209,159006,32333,23936,0,61032,0,9405],[7,2,1,34,125,8,97,123,112025,18625,16425,0,47015,0,5535],[7,3,1,23,80,5,59,77,51861,11920,9314,0,20934,0,3465],[7,1,2,55,194,14,146,187,144589,28906,23195,0,59607,4337,8415],[7,2,2,33,114,8,87,111,104359,16986,12993,0,42015,3034,4995],[7,3,2,19,67,5,49,66,46173,9983,8192,0,18367,1404,2970],[7,1,3,39,146,10,109,141,114152,21754,16595,0,47583,13591,6345],[7,2,3,22,84,6,65,80,74557,12516,10455,0,29938,8707,3600],[7,3,3,13,50,4,38,48,33290,7450,5811,0,13282,4074,2160],[7,1,4,33,113,8,88,110,85624,16837,14613,0,35538,6148,4950],[7,2,4,17,62,4,47,60,54280,9238,7359,0,20906,3811,2700],[7,3,4,10,37,3,29,35,25476,5513,4836,0,10141,1859,1575],[7,1,5,16,51,3,38,49,39408,7599,6269,17150,15485,0,980],[7,2,5,10,30,2,23,29,27711,4470,3556,10150,11116,0,580],[7,3,5,5,17,1,13,17,11995,2533,2168,5950,5031,0,340],[8,1,1,63,262,18,194,257,193780,39038,30347,0,79578,0,11565],[8,2,1,43,158,10,131,153,141644,23542,19707,0,57630,0,6885],[8,3,1,26,100,6,80,96,68974,14900,12640,0,26650,0,4320],[8,1,2,67,244,17,209,237,189505,36356,31480,0,72550,5647,10665],[8,2,2,33,137,10,102,135,124797,20413,17087,0,50533,3630,6075],[8,3,2,21,82,6,64,81,56301,12218,10271,0,22922,1713,3645],[8,1,3,49,182,13,140,180,135913,27118,22066,0,54708,16303,8100],[8,2,3,25,102,7,76,101,91031,15198,12055,0,37123,10623,4545],[8,3,3,14,60,4,45,59,40231,8940,7622,0,15576,4917,2655],[8,1,4,36,140,9,112,133,100943,20860,18064,0,41948,7308,5985],[8,2,4,21,77,6,59,74,70668,11473,9849,0,28852,4928,3330],[8,3,4,12,46,3,36,45,31313,6854,5865,0,13022,2290,2025],[8,1,5,20,67,4,52,64,48295,9983,7693,22400,18626,0,1280],[8,2,5,10,38,2,29,37,33292,5662,4527,12950,13333,0,740],[8,3,5,6,21,2,16,20,13799,3129,2596,7000,5618,0,400],[9,1,1,81,321,22,249,312,235461,47829,35273,0,92940,0,14040],[9,2,1,43,188,13,147,186,176242,28012,20903,0,68763,0,8370],[9,3,1,25,117,8,92,113,77999,17433,15293,0,31012,0,5085],[9,1,2,73,296,21,249,285,228264,44104,32675,0,86791,6809,12825],[9,2,2,38,164,11,140,160,150285,24436,20345,0,61035,4368,7200],[9,3,2,23,98,7,78,95,68916,14602,12712,0,26219,2088,4275],[9,1,3,47,214,15,173,206,157409,31886,26844,0,65399,18930,9270],[9,2,3,31,124,9,101,120,106263,18476,14158,0,43961,12474,5400],[9,3,3,18,73,5,60,71,48988,10877,9162,0,19991,5986,3195],[9,1,4,35,164,11,135,158,120924,24436,19213,0,48534,8722,7110],[9,2,4,22,92,7,73,88,83208,13708,10341,0,32467,5815,3960],[9,3,4,13,56,3,47,54,38170,8344,6379,0,15056,2791,2430],[9,1,5,20,82,5,62,78,62335,12218,9620,27300,24973,0,1560],[9,2,5,11,46,3,37,45,41220,6854,5697,15750,16809,0,900],[9,3,5,7,26,2,21,25,17247,3874,3113,8750,6768,0,500],[10,1,1,85,380,26,333,366,288272,56620,44347,0,110657,0,16470],[10,2,1,46,219,15,174,213,190427,32631,26395,0,75656,0,9585],[10,3,1,29,137,9,104,132,91467,20413,15466,0,35400,0,5940],[10,1,2,68,343,21,256,336,258606,51107,37160,0,105781,7743,15120],[10,2,2,42,195,11,160,191,173410,29055,22186,0,70892,5062,8595],[10,3,2,27,117,8,98,112,78468,17433,12790,0,32085,2398,5040],[10,1,3,54,253,15,207,246,188094,37697,30284,0,72890,22579,11070],[10,2,3,32,147,9,124,145,138450,21903,17537,0,55694,16035,6525],[10,3,3,18,85,6,73,82,58309,12665,10696,0,22700,7097,3690],[10,1,4,44,196,12,149,193,153820,29204,21295,0,59486,10981,8685],[10,2,4,22,107,7,87,103,92041,15943,13336,0,36037,6479,4635],[10,3,4,14,66,4,58,65,45472,9834,8561,0,17466,3318,2925],[10,1,5,20,96,6,80,92,71506,14304,11433,32200,29141,0,1840],[10,2,5,13,56,3,48,55,52421,8344,7125,19250,21378,0,1100],[10,3,5,8,32,2,27,31,21822,4768,3771,10850,8571,0,620],[11,1,1,90,444,26,349,433,334857,66156,58373,0,132903,0,19485],[11,2,1,50,255,14,202,251,238948,37995,29412,0,96701,0,11295],[11,3,1,30,158,9,128,155,108253,23542,18115,0,42297,0,6975],[11,1,2,80,398,25,311,393,312000,59302,49256,0,118619,9283,17685],[11,2,2,46,228,13,187,219,207042,33972,25879,0,81708,6025,9855],[11,3,2,26,135,8,108,129,89137,20115,15957,0,35107,2731,5805],[11,1,3,56,292,17,236,278,210797,43508,34520,0,81546,25430,12510],[11,2,3,37,174,10,134,167,148884,25926,22865,0,60264,17481,7515],[11,3,3,19,98,6,82,94,64777,14602,10599,0,26104,7938,4230],[11,1,4,47,228,15,188,219,167232,33972,28720,0,65325,12072,9855],[11,2,4,26,125,8,101,123,113795,18625,14224,0,43939,7945,5535],[11,3,4,17,78,5,65,77,55829,11622,10274,0,23052,4047,3465],[11,1,5,23,112,7,91,107,80459,16688,12162,37450,31870,0,2140],[11,2,5,12,64,4,52,63,59150,9536,8420,22050,22940,0,1260],[11,3,5,8,38,2,31,36,25776,5662,4436,12600,9924,0,720]],"mkt":[[0,1,10145,2536,841075,14973,24],[0,2,7679,0,468009,8051,21],[0,3,4039,0,275430,5130,16],[0,4,7646,0,500712,9040,12],[0,5,0,0,0,0,0],[1,1,13866,3466,1057399,21131,33],[1,2,11282,0,644592,11141,29],[1,3,5850,0,392327,6717,22],[1,4,10224,0,579395,10342,17],[1,5,0,0,0,0,0],[2,1,18046,4511,1384170,20193,43],[2,2,15795,0,917255,12352,39],[2,3,8385,0,526501,9249,31],[2,4,15006,0,942925,14493,23],[2,5,0,0,0,0,0],[3,1,25971,6493,2025299,29958,57],[3,2,19157,0,1231606,18677,49],[3,3,10170,0,565543,8186,38],[3,4,18165,0,1225493,22486,28],[3,5,15393,0,888863,14420,16],[4,1,35079,8770,2742816,51837,73],[4,2,24391,0,1499076,19047,64],[4,3,13108,0,897750,15769,49],[4,4,25524,0,1755036,33202,37],[4,5,17431,0,1130288,19863,18],[5,1,39995,9999,3081597,60679,87],[5,2,30978,0,2079014,25581,78],[5,3,18040,0,1151141,16805,63],[5,4,32401,0,2245745,43841,44],[5,5,21802,0,1523113,25501,24],[6,1,48893,12223,4090138,59969,102],[6,2,36297,0,2496266,38270,93],[6,3,17168,0,1072482,14846,65],[6,4,35136,0,2158611,26379,50],[6,5,24821,0,1660254,26096,27],[7,1,59422,14855,4354860,55551,117],[7,2,42075,0,2489820,45337,107],[7,3,20001,0,1310602,22155,74],[7,4,42424,0,2940555,48657,60],[7,5,30763,0,1995208,25489,31],[8,1,68345,17086,5448142,72661,132],[8,2,49641,0,3194056,56411,121],[8,3,23932,0,1336869,25286,88],[8,4,51691,0,2922530,54404,69],[8,5,35267,0,2071750,36749,36],[9,1,76881,19220,6588986,105433,149],[9,2,56643,0,3366496,62588,134],[9,3,25874,0,1428033,27416,96],[9,4,55918,0,3716401,70823,70],[9,5,38519,0,2629155,34936,38],[10,1,86559,21640,7183829,128093,160],[10,2,54648,0,3415717,48768,137],[10,3,29361,0,1809241,33468,104],[10,4,62042,0,3773884,48103,80],[10,5,40110,0,2579346,43028,41],[11,1,92094,23023,7776347,154894,170],[11,2,63373,0,3568850,54199,152],[11,3,32733,0,2286518,38152,112],[11,4,71408,0,4748469,69616,90],[11,5,43475,0,2976755,40884,43]],"fun":[[0,1,544,98,39,24,17,4],[0,2,472,85,34,21,15,4],[0,3,211,38,26,16,12,3],[0,4,267,48,19,12,9,3],[0,5,0,0,0,0,0,0],[1,1,717,129,53,33,24,6],[1,2,633,114,47,29,20,6],[1,3,278,50,35,22,15,5],[1,4,367,66,27,17,12,3],[1,5,0,0,0,0,0,0],[2,1,906,163,69,43,32,8],[2,2,828,149,63,39,27,8],[2,3,383,69,50,31,21,6],[2,4,483,87,37,23,16,4],[2,5,0,0,0,0,0,0],[3,1,1172,211,92,57,41,11],[3,2,1006,181,79,49,33,8],[3,3,456,82,61,38,27,7],[3,4,572,103,45,28,19,5],[3,5,333,60,26,16,11,3],[4,1,1461,263,118,73,53,16],[4,2,1278,230,103,64,46,11],[4,3,578,104,79,49,34,10],[4,4,744,134,60,37,26,8],[4,5,361,65,29,18,13,3],[5,1,1689,304,140,87,61,14],[5,2,1522,274,126,78,54,13],[5,3,722,130,102,63,46,12],[5,4,856,154,71,44,32,9],[5,5,472,85,39,24,17,5],[6,1,1944,350,165,102,74,21],[6,2,1767,318,150,93,64,16],[6,3,728,131,105,65,46,14],[6,4,956,172,81,50,35,11],[6,5,517,93,44,27,20,5],[7,1,2167,390,189,117,84,21],[7,2,1983,357,173,107,77,17],[7,3,828,149,119,74,52,13],[7,4,1111,200,97,60,43,12],[7,5,572,103,50,31,22,5],[8,1,2383,429,213,132,93,23],[8,2,2183,393,195,121,84,24],[8,3,989,178,142,88,65,18],[8,4,1244,224,111,69,49,15],[8,5,650,117,58,36,26,7],[9,1,2622,472,240,149,102,32],[9,2,2361,425,216,134,95,28],[9,3,1078,194,155,96,71,15],[9,4,1233,222,113,70,48,12],[9,5,667,120,61,38,26,8],[10,1,2756,496,258,160,115,30],[10,2,2361,425,221,137,99,23],[10,3,1167,210,168,104,73,19],[10,4,1378,248,129,80,56,17],[10,5,706,127,66,41,29,7],[11,1,2861,515,274,170,116,36],[11,2,2561,461,245,152,109,32],[11,3,1256,226,181,112,76,20],[11,4,1517,273,145,90,64,16],[11,5,722,130,69,43,32,9]],"opex":[[210000,70000,45000,25000,30000,20000],[222000,75000,47000,28000,30000,21000],[234000,80000,49000,31000,30000,22000],[246000,85000,51000,34000,30000,23000],[258000,90000,53000,37000,30000,24000],[270000,95000,55000,40000,30000,25000],[282000,100000,57000,43000,30000,26000],[294000,105000,59000,46000,30000,27000],[306000,110000,61000,49000,30000,28000],[318000,115000,63000,52000,30000,29000],[330000,120000,65000,55000,30000,30000],[342000,125000,67000,58000,30000,31000]],"health":[["แมกนีเซียม",1,200,149],["แมกนีเซียม",2,208,144],["แมกนีเซียม",3,186,135],["วิตามินดี",1,199,128],["วิตามินดี",2,200,131],["วิตามินดี",3,209,149],["ธาตุเหล็ก",1,199,124],["ธาตุเหล็ก",2,207,123],["ธาตุเหล็ก",3,176,103],["โอเมก้า-3 / ไขมันในเลือด",1,198,117],["โอเมก้า-3 / ไขมันในเลือด",2,209,118],["โอเมก้า-3 / ไขมันในเลือด",3,177,97]]};
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const nf=n=>Math.round(n).toLocaleString('th-TH'),thb=n=>'฿'+nf(n),mb=(n,d=2)=>(n<0?'−':'')+'฿'+(Math.abs(n)/1e6).toFixed(d)+' ล้าน',pc=(n,d=1)=>n.toFixed(d)+'%';
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const FONT='"IBM Plex Sans Thai",system-ui,sans-serif',SER=()=>['--s1','--s2','--s3','--s4','--s5'].map(css);
+const D=DATA,NM=D.labels.length,CHN=D.ch.map(c=>c[1]),charts={},tables={};
+const META={author:'เพชรนภากร พลนิกร',sid:'67160358',course:'Business Idea Creation'};
+const state={period:'all',ch:-1},PER={all:NM,'6':6,'3':3},PERTH={all:'ทั้งหมด 12 เดือน','6':'6 เดือนล่าสุด','3':'3 เดือนล่าสุด'};
+const tot=a=>a.reduce((x,y)=>x+y,0),z=()=>new Array(NM).fill(0),sum=(a,x=0,y=NM-1)=>{let t=0;for(let i=Math.max(0,x);i<=y;i++)t+=a[i];return t},dv=(a,b)=>b?a/b:0;
+/* rows: [m,seg,ch,new,active,churned,adherent,orders,supp,sub,consult,b2b,cogs,fee,ship]  mkt:[m,ch,ad,kol,imp,clk,new]  fun:[m,ch,vis,quest,upload,sub,renew3,ref] */
+function build(ch){const S={supp:z(),sub:z(),con:z(),b2b:z(),cogs:z(),fee:z(),ship:z(),new:z(),act:z(),chn:z(),adh:z(),ord:z(),mkt:z(),opex:z(),seg:[z(),z(),z()],fv:z(),fq:z(),fu:z(),fs:z(),fr:z(),ff:z()};
+ D.rows.forEach(r=>{if(ch>0&&r[2]!==ch)return;const m=r[0];S.new[m]+=r[3];S.act[m]+=r[4];S.chn[m]+=r[5];S.adh[m]+=r[6];S.ord[m]+=r[7];S.supp[m]+=r[8];S.sub[m]+=r[9];S.con[m]+=r[10];S.b2b[m]+=r[11];S.cogs[m]+=r[12];S.fee[m]+=r[13];S.ship[m]+=r[14];S.seg[r[1]-1][m]+=r[8]+r[9]+r[10]+r[11]});
+ D.mkt.forEach(r=>{if(ch>0&&r[1]!==ch)return;S.mkt[r[0]]+=r[2]+r[3]});
+ D.fun.forEach(r=>{if(ch>0&&r[1]!==ch)return;const m=r[0];S.fv[m]+=r[2];S.fq[m]+=r[3];S.fu[m]+=r[4];S.fs[m]+=r[5];S.fr[m]+=r[6];S.ff[m]+=r[7]});
+ if(ch<0)D.opex.forEach((o,i)=>S.opex[i]=sum(o));
+ S.rev=S.supp.map((v,i)=>v+S.sub[i]+S.con[i]+S.b2b[i]);S.var=S.rev.map((v,i)=>S.cogs[i]+S.fee[i]+S.ship[i]);
+ S.contrib=S.rev.map((v,i)=>v-S.var[i]-S.mkt[i]);S.profit=S.contrib.map((v,i)=>v-S.opex[i]);
+ S.churnPct=S.chn.map((v,i)=>i?dv(v,S.act[i-1])*100:null);S.adhPct=S.adh.map((v,i)=>dv(v,S.act[i])*100);S.cac=S.mkt.map((v,i)=>dv(v,S.new[i]));return S}
+let ALL,SC,V;
+function view(){ALL=ALL||build(-1);SC=SC||D.ch.map(c=>build(c[0]));
+ const S=state.ch<0?ALL:SC[state.ch],n=PER[state.period],m0=NM-n,allCh=state.ch<0,a3=NM-3;
+ const rev=sum(S.rev,m0),prof=sum(S.profit,m0),base=dv(sum(S.mkt,0,2),sum(S.new,0,2))||dv(sum(S.mkt,3,5),sum(S.new,3,5));
+ const K={rev,gm:(1-dv(sum(S.cogs,m0),sum(S.supp,m0)))*100,prof,pm:dv(prof,rev)*100,act:S.act[NM-1],new:sum(S.new,m0),cac:dv(sum(S.mkt,m0),sum(S.new,m0)),cacBase:base,m0,
+  per:`${D.labels[m0]} – ${D.labels[NM-1]}`,firstProfit:S.profit.findIndex(v=>v>0)};
+ return{S,K,allCh,m0,a3,chName:allCh?'ทุกช่องทาง':CHN[state.ch]}}
+/* ---------- charts */
+const endLabels={id:'endLabels',afterDatasetsDraw(c,a,o){if(!o||!o.format)return;const x=c.ctx,h=c.options.indexAxis==='y';x.save();x.fillStyle=css('--ink2');x.font='600 11px '+FONT;x.textBaseline='middle';
+ c.data.datasets.forEach((ds,i)=>c.getDatasetMeta(i).data.forEach((el,j)=>{const v=ds.data[j];if(v==null)return;const t=o.format(v);if(h){x.textAlign='left';x.fillText(t,el.x+6,el.y)}else{x.textAlign='center';x.fillText(t,el.x,el.y-9)}}));x.restore()}};
+Chart.register(endLabels);
+function opt(o={}){const g=css('--grid'),a=css('--axis'),m=css('--muted'),i2=css('--ink2'),h=o.h,tk=(f,x={})=>({color:m,font:{family:FONT,size:11},callback:f,...x});
+ const val={min:o.min,max:o.max,ticks:tk(o.fmt),grid:{color:g},border:{display:false},stacked:!!o.stack},cat={stacked:!!o.stack,grid:{display:false},border:{color:a},ticks:tk(undefined,{maxRotation:o.rot??0,autoSkip:true,maxTicksLimit:o.maxT})};
+ return{responsive:true,maintainAspectRatio:false,indexAxis:h?'y':'x',interaction:{mode:o.mode||'index',intersect:false},layout:{padding:{top:o.pt??6,right:o.pr??6}},
+  plugins:{legend:o.legend?{display:true,position:'top',align:'start',labels:{usePointStyle:true,pointStyle:'rectRounded',boxWidth:9,boxHeight:9,color:i2,font:{family:FONT,size:12},padding:14}}:{display:false},
+   tooltip:{backgroundColor:css('--surface'),titleColor:css('--ink'),bodyColor:css('--ink2'),borderColor:a,borderWidth:1,padding:10,cornerRadius:8,titleFont:{family:FONT,weight:'600'},bodyFont:{family:FONT},callbacks:o.tt||{}},endLabels:o.end?{format:o.end}:false},
+  scales:h?{x:val,y:cat}:{x:cat,y:val}}}
+const bds=(l,d,c,x={})=>({label:l,data:d,backgroundColor:c,borderColor:css('--surface'),borderWidth:x.gap||0,borderRadius:4,borderSkipped:false,maxBarThickness:x.th||28,...x});
+const lds=(l,d,c)=>({label:l,data:d,borderColor:c,backgroundColor:c,borderWidth:2.5,pointRadius:3,pointHoverRadius:5,tension:.25});
+function mk(k,type,labels,ds,o,tbl){const cv=$(`[data-chart="${k}"] canvas`);if(charts[k])charts[k].destroy();charts[k]=new Chart(cv,{type,data:{labels,datasets:ds},options:o});tables[k]=tbl}
+const tbl=t=>'<table><thead><tr>'+t.head.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>'+t.rows.map(r=>'<tr>'+r.map(c=>`<td>${c}</td>`).join('')+'</tr>').join('')+'</tbody></table>';
+const QL=['Q4/68','Q1/69','Q2/69','Q3/69'];
+/* ---------- text + draw */
+function draw(){V=view();const{S,K,allCh,m0,a3}=V,lab=D.labels.slice(m0),sl=a=>a.slice(m0),L=lab.length;
+ const [c1,c2,c3,c4,c5]=SER(),P1=['--muted'];
+ // header
+ $('#author').textContent=`${META.author} (${META.sid})`;$('#period').textContent=`วิชา ${META.course} · ข้อมูล ${D.labels[0]} – ${D.labels[NM-1]} (${NM} เดือน)`;
+ $('#credit').textContent=`จัดทำโดย ${META.author} รหัสนักศึกษา ${META.sid} · รายวิชา ${META.course}`;
+ $('#scope').innerHTML=`กำลังแสดง: <b>${V.chName}</b> · <b>${PERTH[state.period]}</b> (${K.per})`;
+ // KPI
+ $('#kpis').innerHTML=[['ยอดขายสุทธิ',mb(K.rev,1),`เดือนล่าสุด <b>${mb(S.rev[NM-1],2)}</b>`],['กำไรขั้นต้น (อาหารเสริม)',pc(K.gm),'หลังหักต้นทุนสินค้า'],
+  [allCh?'กำไรสุทธิ':'กำไรส่วนเกิน',mb(K.prof,2),`อัตรา <b>${pc(K.pm)}</b>`+(allCh?'':' · ก่อนหักค่าใช้จ่ายคงที่')],['สมาชิกที่ใช้งานอยู่',nf(K.act),`สมาชิกใหม่ในช่วงนี้ ${nf(K.new)} คน`],['CAC เฉลี่ย',thb(K.cac),`ฐานตั้งต้น ${thb(K.cacBase)}`]]
+  .map(([l,v,d])=>`<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
+ // alerts (3 เดือนล่าสุด ตามช่องทาง)
+ const chu=dv(sum(S.chn,a3),sum(S.act,a3-1,NM-2))*100,adh3=dv(sum(S.adh,a3),sum(S.act,a3))*100,cac3=dv(sum(S.mkt,a3),sum(S.new,a3)),cr=dv(cac3,K.cacBase),
+  cm3=dv(sum(S.contrib,a3),sum(S.rev,a3))*100,up3=dv(sum(S.fu,a3),sum(S.fq,a3))*100,hAvg=D.health.reduce((a,h)=>a+h[3],0)/D.health.reduce((a,h)=>a+h[2],0)*100,nm3=dv(sum(S.profit,a3),sum(S.rev,a3))*100;
+ const lv=(v,w,c,hi=true)=>hi?(v>=c?'crit':v>=w?'warn':'ok'):(v<=c?'crit':v<=w?'warn':'ok');
+ const al=[{id:'CHURN',t:'อัตราเลิกใช้ (Churn) 3 เดือนล่าสุด',s:lv(chu,10,15),v:pc(chu)+' ต่อเดือน',r:'เฝ้าระวัง ≥ 10% · วิกฤต ≥ 15%',a:'สรุปผลค่าตรวจเลือดให้ผู้ใช้เห็นในแอปทุกเดือน และให้ทีมนักโภชนาการโทรหาผู้ที่ไม่ได้ทานครบ'},
+  {id:'ADH',t:'อัตราทานครบตามแผน',s:lv(adh3,70,60,false),v:pc(adh3),r:'เฝ้าระวัง < 70% · วิกฤต < 60%',a:'เพิ่มการแจ้งเตือนผ่านแอป/LINE และให้ Chatbot ถามอาการข้างเคียง'},
+  {id:'CAC',t:'CAC สูงกว่าฐานตั้งต้น',s:lv(cr,1.25,1.5),v:`${thb(cac3)} (${cr.toFixed(2)}× ของฐาน ${thb(K.cacBase)})`,r:'เฝ้าระวัง ≥ 1.25× · วิกฤต ≥ 1.5× ของ CAC ช่วงเปิดตัว',a:'ย้ายงบจากช่องทางที่ CAC พุ่งไปคลินิกพันธมิตรและการแนะนำต่อ (บทที่ 5)'},
+  {id:'CM',t:'กำไรส่วนเกินของช่องทาง (3 เดือนล่าสุด)',s:lv(cm3,45,30,false),v:pc(cm3),r:'เฝ้าระวัง < 45% · วิกฤต < 30% (หลังหักการตลาด)',a:'ลดค่าโฆษณา/KOL หรือเจรจาค่าคอมมิชชันของพันธมิตรใหม่'},
+  {id:'UPLOAD',t:'ผู้ทำแบบสอบถามที่อัปโหลดผลตรวจเลือด',s:lv(up3,55,45,false),v:pc(up3),r:'เฝ้าระวัง < 55% · วิกฤต < 45%',a:'ให้คลินิกพันธมิตรส่งผลตรวจเข้าระบบให้อัตโนมัติ และเพิ่มขั้นตอนถ่ายรูปผลตรวจ'},
+  {id:'HEALTH',t:'ผู้ใช้ที่ค่าตรวจเลือดดีขึ้นหลัง 3 เดือน',s:lv(hAvg,65,55,false),v:pc(hAvg,0),r:'เฝ้าระวัง < 65% · วิกฤต < 55% (ไม่ขึ้นกับตัวกรอง)',a:'ทบทวนสูตรของตัวชี้วัดที่ดีขึ้นน้อยร่วมกับแพทย์ที่ปรึกษา'}];
+ if(allCh)al.push({id:'NP',t:'อัตรากำไรสุทธิ 3 เดือนล่าสุด',s:nm3<0?'crit':nm3<10?'warn':'ok',v:pc(nm3),r:'เฝ้าระวัง < 10% · วิกฤต < 0%',a:'ตรวจต้นทุนทีมงานและ AI/Cloud ซึ่งเป็นค่าใช้จ่ายคงที่ก้อนใหญ่'});
+ const TH={ok:['ปกติ','✓'],warn:['เฝ้าระวัง','▲'],crit:['วิกฤต','✖']},bad=al.filter(a=>a.s!=='ok').length,ord={crit:0,warn:1,ok:2};
+ $('#alertsum').textContent=bad?`ต้องจับตา ${bad} จาก ${al.length} เรื่อง`:`ทุกตัวชี้วัดอยู่ในเกณฑ์ (${al.length} เรื่อง)`;
+ $('#alertgrid').innerHTML=[...al].sort((a,b)=>ord[a.s]-ord[b.s]).map(a=>`<div class="alert ${a.s}"><div class="top"><span class="chip ${a.s}">${TH[a.s][1]} ${TH[a.s][0]}</span><span class="aid">${a.id}</span></div><h4>${a.t}</h4><div class="val">${a.v}</div><p>เกณฑ์: ${a.r}</p>${a.s==='ok'?'':`<p class="act"><b>ควรทำ:</b> ${a.a}</p>`}</div>`).join('');
+ $('#nav').innerHTML=[['alerts','สัญญาณเตือน'],['c1','1 ลูกค้า'],['c2','2 AI'],['c3','3 ผลลัพธ์'],['c4','4 ธุรกิจ'],['c5','5 การเติบโต'],['c6','6 ก้าวต่อไป']].map(([i,t])=>`<a href="#${i}">${t}</a>`).join('');
+ // ---- ch1
+ const segR=D.seg.map((s,i)=>({n:s[1],d:s[2],r:sum(S.seg[i],m0)})),totSeg=tot(segR.map(x=>x.r)),topSeg=[...segR].sort((a,b)=>b.r-a.r)[0];
+ const chRev=D.ch.map((c,i)=>sum(SC[i].rev,m0)),chTot=tot(chRev),topCh=D.ch[chRev.indexOf(Math.max(...chRev))][1];
+ $('#c1h').textContent=`${topSeg.n}คือฐานลูกค้าหลัก (${pc(topSeg.r/totSeg*100,0)} ของยอดขาย) และ ${topCh} พาลูกค้ามาได้มากที่สุด`;
+ $('#c1p').innerHTML=`MYSUPP ออกแบบมาเพื่อคนที่อยากดูแลสุขภาพเชิงป้องกันแต่ไม่มีเวลานัดหมอบ่อยๆ ลูกค้าเข้ามาจากหลายช่องทาง ทั้งโซเชียล แอป คลินิกพันธมิตร และองค์กร (B2B) ตัวเลขด้านล่างแสดงเฉพาะ <b>${V.chName}</b> ในช่วง ${K.per}`;
+ mk('seg','bar',segR.map(x=>x.n),[bds('ล้านบาท',segR.map(x=>x.r/1e6),c1,{th:24})],opt({h:true,end:v=>v.toFixed(2),pr:44,mode:'nearest',min:0,fmt:v=>v,tt:{label:c=>` ${c.parsed.x.toFixed(2)} ล้านบาท`}}),{head:['กลุ่มลูกค้า','ยอดขาย','สัดส่วน'],rows:segR.map(x=>[x.n,mb(x.r,2),pc(x.r/totSeg*100)])});
+ const qi=[0,1,2,3].filter(q=>q*3>=m0),qs=(a,q)=>sum(a,q*3,q*3+2),qTot=qi.map(q=>tot(D.ch.map((_,i)=>qs(SC[i].rev,q))));
+ mk('chshare','bar',qi.map(q=>QL[q]),D.ch.map((c,i)=>bds(c[1],qi.map((q,j)=>dv(qs(SC[i].rev,q),qTot[j])*100),SER()[i],{gap:2,th:50})),opt({legend:true,stack:true,min:0,max:100,fmt:v=>v+'%',tt:{label:c=>` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}),{head:['ไตรมาส',...CHN],rows:qi.map((q,j)=>[QL[q],...D.ch.map((_,i)=>pc(dv(qs(SC[i].rev,q),qTot[j])*100))])});
+ $('#segcards').innerHTML=segR.map((x,i)=>`<div class="mini"><h4><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${SER()[i]};margin-right:8px"></span>${x.n}</h4><p>${x.d}</p><div class="big">${pc(x.r/totSeg*100,0)}</div><p style="margin-top:0">ของยอดขาย · ${mb(x.r,2)}</p><div class="bar"><i style="width:${x.r/totSeg*100}%;background:${SER()[i]}"></i></div></div>`).join('');
+ // ---- ch2
+ const adhS=sl(S.adhPct),h=D.health,mk_=[...new Set(h.map(r=>r[0]))].map(n=>{const r=h.filter(x=>x[0]===n);return{n,p:tot(r.map(x=>x[3]))/tot(r.map(x=>x[2]))*100}});
+ $('#c2h').textContent=`อัตราทานครบตามแผนอยู่ที่ ${pc(S.adhPct[NM-1],0)} ในเดือนล่าสุด (เริ่มต้น ${pc(S.adhPct[0],0)}) และค่าตรวจเลือดดีขึ้นเฉลี่ย ${pc(hAvg,0)}`;
+ $('#c2p').innerHTML=`จุดขายคือ “ได้อาหารเสริมที่ออกแบบจากผลตรวจจริง ไม่ใช่สูตรสำเร็จรูป” ระบบจึงต้องทำให้ผู้ใช้<b>ทานต่อเนื่อง</b>และ<b>เห็นผลจริง</b> ผ่านแจ้งเตือน Chatbot 24 ชม. และการปรับสูตรทุกเดือน โดยมีนักโภชนาการ/แพทย์ตรวจสูตรก่อนผลิตเสมอ`;
+ mk('adh','line',lab,[lds('ทานครบ %',adhS,c1)],opt({min:Math.floor(Math.min(...adhS)/10)*10-5,max:100,fmt:v=>v+'%',maxT:8,tt:{label:c=>` ทานครบ ${c.parsed.y.toFixed(1)}%`}}),{head:['เดือน','ทานครบ %'],rows:lab.map((l,i)=>[l,pc(adhS[i])])});
+ mk('health','bar',mk_.map(x=>x.n),[bds('% ผู้ใช้ที่ดีขึ้น',mk_.map(x=>x.p),c2,{th:22})],opt({h:true,end:v=>v.toFixed(0)+'%',pr:40,mode:'nearest',min:0,max:100,fmt:v=>v+'%',tt:{label:c=>` ${c.parsed.x.toFixed(1)}% ของผู้ที่ตรวจซ้ำ`}}),{head:['ตัวชี้วัด','% ที่ดีขึ้น'],rows:mk_.map(x=>[x.n,pc(x.p)])});
+ // ---- ch3
+ const act=sl(S.act),chp=sl(S.churnPct),fc=chp.findIndex(v=>v!=null);
+ $('#c3h').textContent=`สมาชิกเพิ่มจาก ${nf(act[0])} เป็น ${nf(act[L-1])} คน และ Churn ลดเหลือ ${pc(chp[L-1],1)} ในเดือนล่าสุด`;
+ $('#c3p').innerHTML=`ในช่วง ${K.per} มีสมาชิกใหม่ <b>${nf(K.new)} คน</b> (${V.chName}) โดย Churn${fc>=0?` ลดจาก ${pc(chp[fc],1)} ใน${lab[fc]}`:''} การที่ผู้ใช้เห็นผลตรวจเลือดดีขึ้นช่วยให้อยู่กับแพลตฟอร์มนานขึ้น`;
+ mk('mem','bar',lab,[bds('สมาชิก',act,act.map((_,i)=>i===L-1?c1:c2),{th:26})],opt({end:v=>nf(v),pt:20,fmt:v=>nf(v),maxT:12,tt:{label:c=>` ${nf(c.parsed.y)} คน`}}),{head:['เดือน','สมาชิก (คน)'],rows:lab.map((l,i)=>[l,nf(act[i])])});
+ mk('churn','line',lab,[lds('Churn %',chp,c5)],opt({min:0,fmt:v=>v+'%',maxT:8,tt:{label:c=>` Churn ${c.parsed.y==null?'-':c.parsed.y.toFixed(1)+'%'}`}}),{head:['เดือน','Churn %'],rows:lab.map((l,i)=>[l,chp[i]==null?'-':pc(chp[i])])});
+ // ---- ch4
+ const R=sum(S.rev,m0),f={supp:sum(S.supp,m0),sub:sum(S.sub,m0),con:sum(S.con,m0),b2b:sum(S.b2b,m0)},cg=sum(S.cogs,m0),fs=sum(S.fee,m0)+sum(S.ship,m0),mkt=sum(S.mkt,m0),ox=sum(S.opex,m0),fp=K.firstProfit;
+ $('#c4h').textContent=allCh?`ยอดขาย ${mb(R,1)} ในช่วงที่เลือก เหลือกำไรสุทธิ ${pc(K.pm)}${fp>=0?` และเริ่มมีกำไรรายเดือนตั้งแต่ ${D.labels[fp]}`:''}`:`${V.chName}: ยอดขาย ${mb(R,1)} เหลือกำไรส่วนเกิน ${pc(K.pm)} ก่อนหักค่าใช้จ่ายคงที่ส่วนกลาง`;
+ $('#c4p').innerHTML=`รายได้มาจาก 4 แหล่ง: ขายอาหารเสริมเฉพาะบุคคล ${pc(f.supp/R*100,0)} · ค่าสมาชิก ${pc(f.sub/R*100,0)} · ที่ปรึกษา Premium ${pc(f.con/R*100,0)} · แพ็กเกจองค์กร ${pc(f.b2b/R*100,0)} ส่วนต้นทุนก้อนใหญ่คือ ทีมงานและระบบ AI/Cloud ที่เป็นค่าใช้จ่ายคงที่ ธุรกิจนี้จึง<b>ขาดทุนช่วงเปิดตัว</b>และเริ่มคุ้มเมื่อจำนวนสมาชิกถึงระดับหนึ่ง`;
+ mk('rev','bar',lab,[['ขายอาหารเสริม',S.supp,c1],['ค่าสมาชิก',S.sub,c2],['ที่ปรึกษา Premium',S.con,c4],['องค์กร (B2B)',S.b2b,c3]].map(([n,a,c])=>bds(n,sl(a).map(v=>v/1e6),c,{gap:1.5,th:28})),opt({legend:true,stack:true,fmt:v=>v.toFixed(1),maxT:12,tt:{label:c=>` ${c.dataset.label}: ฿${c.parsed.y.toFixed(2)} ล้าน`,footer:i=>'รวม ฿'+i.reduce((a,x)=>a+x.parsed.y,0).toFixed(2)+' ล้าน'}}),{head:['เดือน','อาหารเสริม','ค่าสมาชิก','Premium','B2B','รวม'],rows:lab.map((l,i)=>[l,mb(S.supp[m0+i],2),mb(S.sub[m0+i],2),mb(S.con[m0+i],2),mb(S.b2b[m0+i],2),mb(S.rev[m0+i],2)])});
+ const st=[['ยอดขายสุทธิ',R,'t'],['ต้นทุนสินค้า',-cg,'c'],['ค่าธรรมเนียม/จัดส่ง',-fs,'c'],['โฆษณา + KOL',-mkt,'c'],...(allCh?[['ค่าใช้จ่ายคงที่',-ox,'c']]:[]),[allCh?'กำไรสุทธิ':'กำไรส่วนเกิน',K.prof,'t']];
+ let run=0;const wf=st.map(([n,v,t])=>{if(t==='t'){run=v;return[0,v]}const o=[run+v,run];run+=v;return o});
+ $('#wfs').textContent=`${K.per} · ล้านบาท`;$('#nph').textContent=allCh?'กำไรสุทธิรายเดือน':`กำไรส่วนเกินรายเดือน — ${V.chName}`;$('#nps').textContent=allCh?'ล้านบาท · หลังหักทุกรายการ':'ล้านบาท · ก่อนหักค่าใช้จ่ายคงที่ส่วนกลาง';
+ mk('wf','bar',st.map(s=>s[0]),[{label:'บาท',data:wf,borderRadius:4,borderSkipped:false,maxBarThickness:40,backgroundColor:st.map(s=>s[2]==='t'?c1:c5)}],opt({mode:'nearest',fmt:v=>(v/1e6).toFixed(1),rot:30,tt:{label:c=>{const s=st[c.dataIndex];return ` ${s[0]}: ${mb(s[1],2)} (${pc(Math.abs(s[1])/R*100)} ของยอดขาย)`}}}),{head:['รายการ','ล้านบาท','% ของยอดขาย'],rows:st.map(s=>[s[0],(s[1]/1e6).toFixed(2),pc(Math.abs(s[1])/R*100)])});
+ const cmR=D.ch.map((c,i)=>({n:c[1],v:dv(sum(SC[i].contrib,m0),sum(SC[i].rev,m0))*100,r:sum(SC[i].rev,m0)})).sort((a,b)=>b.v-a.v);
+ mk('cm','bar',cmR.map(x=>x.n),[bds('กำไรส่วนเกิน %',cmR.map(x=>x.v),c1,{th:22})],opt({h:true,end:v=>v.toFixed(0)+'%',pr:44,mode:'nearest',min:0,fmt:v=>v+'%',tt:{label:c=>` ${c.parsed.x.toFixed(1)}% ของยอดขายช่องทางนี้`}}),{head:['ช่องทาง','ยอดขาย','กำไรส่วนเกิน'],rows:cmR.map(x=>[x.n,mb(x.r,2),pc(x.v)])});
+ const np=sl(S.profit);mk('np','bar',lab,[bds('กำไร',np.map(v=>v/1e6),np.map(v=>v<0?c5:c1),{th:24})],opt({fmt:v=>v.toFixed(1),maxT:12,tt:{label:c=>` ${c.parsed.y<0?'ขาดทุน':'กำไร'} ฿${Math.abs(c.parsed.y).toFixed(2)} ล้าน`}}),{head:['เดือน','ล้านบาท'],rows:lab.map((l,i)=>[l,(np[i]/1e6).toFixed(2)])});
+ // ---- ch5
+ const F=[['เห็นโฆษณา/เข้าเว็บ',sum(S.fv,m0)],['ทำแบบสอบถามในแอป',sum(S.fq,m0)],['อัปโหลดผลตรวจเลือด',sum(S.fu,m0)],['สมัครสมาชิก',sum(S.fs,m0)],['ต่ออายุเดือนที่ 3',sum(S.fr,m0)],['แนะนำเพื่อนต่อ',sum(S.ff,m0)]],cv=F.map((x,i)=>i?dv(x[1],F[i-1][1])*100:100),wi=cv.reduce((b,v,i)=>i>=2&&i<=4&&v<cv[b]?i:b,2);
+ $('#c5h').textContent=`ผู้ใช้หลุดมากที่สุดที่ขั้น “${F[wi][0]}” (เหลือ ${pc(cv[wi],0)} จากขั้นก่อนหน้า)`;
+ $('#c5p').innerHTML=`ผู้เข้าเว็บส่วนใหญ่ยังไม่ทำแบบสอบถามซึ่งเป็นเรื่องปกติของช่องทางออนไลน์ จึงดูที่ขั้นหลังจากนั้น ขั้นที่ผู้ใช้ต้องลงมือเองอย่างหาผลตรวจเลือดมาอัปโหลดคือจุดที่หลุดมาก ส่วน CAC ปัจจุบัน <b>${thb(K.cac)}</b> ต่อสมาชิกใหม่ ${K.cac>K.cacBase?'สูงกว่า':'ต่ำกว่า'}ฐานตั้งต้น ${thb(K.cacBase)} (${((K.cac/K.cacBase-1)*100).toFixed(0)}%)`;
+ mk('fun','bar',F.map(x=>x[0]),[bds('คน',F.map(x=>x[1]),c1,{th:22})],opt({h:true,end:v=>nf(v),pr:56,mode:'nearest',min:0,fmt:v=>nf(v),tt:{label:c=>{const i=c.dataIndex;return ` ${nf(c.parsed.x)} คน${i?` (${pc(cv[i],0)} จากขั้นก่อน)`:''}`}}}),{head:['ขั้น','คน','% จากขั้นก่อน'],rows:F.map((x,i)=>[x[0],nf(x[1]),i?pc(cv[i]):'-'])});
+ const cacM=sl(S.cac);mk('cac','line',lab,[lds('CAC',cacM,c4)],opt({min:0,fmt:v=>'฿'+nf(v),maxT:8,tt:{label:c=>` CAC ${thb(c.parsed.y)} ต่อคน`}}),{head:['เดือน','CAC (บาท)'],rows:lab.map((l,i)=>[l,nf(cacM[i])])});
+ const cc=D.ch.map((c,i)=>({n:c[1],a:dv(sum(SC[i].mkt,3,5),sum(SC[i].new,3,5)),b:dv(sum(SC[i].mkt,NM-3),sum(SC[i].new,NM-3))})).sort((a,b)=>b.b-a.b);
+ mk('cacch','bar',cc.map(c=>c.n),[bds('3 เดือนแรก (ที่มีข้อมูล)',cc.map(c=>c.a),c2,{gap:2,th:14}),bds('3 เดือนล่าสุด',cc.map(c=>c.b),c4,{gap:2,th:14})],opt({h:true,legend:true,pr:52,min:0,fmt:v=>'฿'+nf(v),tt:{label:c=>` ${c.dataset.label}: ${thb(c.parsed.x)}`}}),{head:['ช่องทาง','เดือน 4–6','3 เดือนล่าสุด'],rows:cc.map(c=>[c.n,thb(c.a),thb(c.b)])});
+ // ---- ch6
+ const bestCm=cmR[0],worstCm=cmR[cmR.length-1],worstCac=cc[0];
+ $('#c6h').textContent=`3 เรื่องที่ควรทำก่อน: ลดจุดหลุด เพิ่มช่องทางกำไรดี และทำให้ผู้ใช้เห็นผลเพื่ออยู่ต่อ`;
+ $('#c6p').textContent='ข้อสรุปจากข้อมูลในหน้านี้ คำนวณใหม่ตามตัวกรองที่เลือก';
+ $('#actions').innerHTML=[[`แก้ขั้น “${F[wi][0]}”`,`ผู้ใช้เหลือเพียง ${pc(cv[wi],0)} จากขั้นก่อนหน้า — ให้คลินิกพันธมิตรส่งผลตรวจเข้าระบบอัตโนมัติ ลดภาระผู้ใช้ (คลินิกมีสัดส่วนอัปโหลดสูงกว่าช่องทางอื่นอย่างชัดเจน)`],
+  [`ขยาย ${bestCm.n} ซึ่งกำไรส่วนเกินสูงสุด`,`${bestCm.n} ให้กำไรส่วนเกิน ${pc(bestCm.v,0)} ขณะที่ ${worstCm.n} ได้ ${pc(worstCm.v,0)} — ย้ายงบไปช่องทางที่คุ้มกว่า และใช้ B2B ขายแพ็กเกจพนักงาน`],
+  [`ควบคุม CAC ของ ${worstCac.n}`,`CAC 3 เดือนล่าสุด ${thb(worstCac.b)} เทียบ ${thb(worstCac.a)} ช่วงแรก — ทดสอบแคมเปญแนะนำเพื่อน (Referral) เพื่อลดการพึ่งโฆษณา`],
+  ['ทำให้ผู้ใช้เห็นผลจนอยู่ต่อ',`ค่าตรวจเลือดดีขึ้นเฉลี่ย ${pc(hAvg,0)} (สมมติฐาน) — สรุปผลเป็นรายงานรายเดือนในแอปเพื่อลด Churn จาก ${pc(S.churnPct[NM-1],1)} ให้ต่ำกว่า 5%`]].map(([t,p])=>`<div class="action"><div><h4>${t}</h4><p>${p}</p></div></div>`).join('');
+ $$('.card').forEach(c=>{const w=$('.tablewrap',c),k=c.dataset.chart;if(w&&!w.hidden&&tables[k])w.innerHTML=tbl(tables[k])});
+ $$('#fperiod .fbtn').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.p===state.period)));$$('#fchan .fbtn').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.c===state.ch)))}
+/* ---------- wiring */
+$('#fperiod').innerHTML=Object.keys(PER).map(k=>`<button type="button" class="fbtn" data-p="${k}">${PERTH[k]}</button>`).join('');
+$('#fchan').innerHTML=[['-1','ทุกช่องทาง'],...D.ch.map((c,i)=>[String(i),c[1]])].map(([v,l])=>`<button type="button" class="fbtn" data-c="${v}">${l}</button>`).join('');
+$('#fperiod').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b){state.period=b.dataset.p;draw()}});
+$('#fchan').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(b){state.ch=+b.dataset.c;draw()}});
+$$('.card').forEach(c=>{const b=$('.tblbtn',c),w=$('.tablewrap',c),p=$('.plot',c),k=c.dataset.chart;if(!b)return;b.addEventListener('click',()=>{const s=w.hidden;w.hidden=!s;p.style.display=s?'none':'';if(s)w.innerHTML=tbl(tables[k]);b.textContent=s?'ดูเป็นกราฟ':'ดูเป็นตาราง';if(!s&&charts[k])charts[k].resize()})});
+const tb=$('#themebtn'),dark=()=>document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches),lbl=()=>tb.textContent=dark()?'โหมดสว่าง':'โหมดมืด';
+tb.addEventListener('click',()=>{document.documentElement.dataset.theme=dark()?'light':'dark';lbl();draw()});matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{lbl();draw()});lbl();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)$$('nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-35% 0px -60% 0px'});
+$$('.chapter,.alerts').forEach(c=>io.observe(c));
+draw();
+</script>
+</body>
+</html>
